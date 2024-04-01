@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import os
 import requests
 from pptx import Presentation
+import io  # Add this line
 
 app = Flask(__name__)
 
