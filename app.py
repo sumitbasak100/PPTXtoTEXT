@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 import os
 import requests
 from pptx import Presentation
-import io  # Add this line
+import io
 
 app = Flask(__name__)
 
@@ -30,8 +30,11 @@ def extract_text_from_url(url):
 
         if extension == 'pptx':
             prs = Presentation(io.BytesIO(response.content))
-            text = "\n".join(
-                [slide.text for slide in prs.slides for shape in slide.shapes if hasattr(shape, "text") for paragraph in shape.text_frame.paragraphs for run in paragraph.runs])
+            text = ''
+            for slide in prs.slides:
+                for shape in slide.shapes:
+                    if hasattr(shape, "text"):
+                        text += shape.text + '\n'
         else:
             return None, "Unsupported filetype"
 
